@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abhishek Wilson — Systems & Software</title>
+<meta name="description" content="Computer Science student focused on systems software, Linux, C/C++, and low-level programming." />
+<style>
+  :root {
+    --bg: #0b0f14;
+    --bg-soft: #111823;
+    --card: #151f2c;
+    --text: #e6edf3;
+    --muted: #9aa8b6;
+    --accent: #6ee7b7;
+    --accent-2: #60a5fa;
+    --border: rgba(255, 255, 255, 0.08);
+    --radius: 18px;
+    --max: 1100px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .container {
+    width: min(100% - 2rem, var(--max));
+    margin: 0 auto;
+  }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 15, 20, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+  }
+
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 0.45rem 0.65rem;
+    cursor: pointer;
+  }
+
+  .hero {
+    padding: 6rem 0 4rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+  }
+
+  .gradient {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    max-width: 62ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.05rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #06120d;
+    border-color: transparent;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+  }
+
+  .hero-card {
+    background: linear-gradient(180deg, rgba(110, 231, 183, 0.08), rgba(96, 165, 250, 0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+
+  .hero-card h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+  }
+
+  .focus-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .focus-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.55rem;
+    flex: 0 0 auto;
+  }
+
+  section {
+    padding: 4.5rem 0;
+  }
+
+  .section-head {
+    margin-bottom: 2rem;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-head p {
+    color: var(--muted);
+    max-width: 70ch;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.35rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-group h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent);
+  }
+
+  .skill-group ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-group li {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .project-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .project h3 {
+    font-size: 1.15rem;
+  }
+
+  .project .tag {
+    color: var(--accent-2);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .project p {
+    color: var(--muted);
+  }
+
+  .project ul {
+    margin-left: 1.1rem;
+    color: var(--muted);
+  }
+
+  .project li {
+    margin-bottom: 0.3rem;
+  }
+
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .tech span {
+    font-size: 0.78rem;
+    color: var(--text);
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .list {
+    color: var(--muted);
+    margin-left: 1.1rem;
+  }
+
+  .list li {
+    margin-bottom: 0.45rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg-soft);
+  }
+
+  .contact-item .icon {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(110, 231, 183, 0.1);
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .contact-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .contact-item strong {
+    font-size: 0.95rem;
+    word-break: break-word;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid,
+    .grid-2,
+    .grid-3,
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .menu-btn {
+      display: block;
+    }
+
+    .hero {
+      padding-top: 4rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="#">Abhishek<span>.</span></a>
+    <button class="menu-btn" aria-label="Toggle menu" id="menuBtn">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#research">Research</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <div class="eyebrow">Systems • Software • Low-level</div>
+      <h1>Hi, I'm <span class="gradient">Abhishek Wilson</span>.</h1>
+      <p>
+        Computer Science student building strong foundations in C/C++, Linux, operating systems,
+        computer architecture, networking, and backend systems. I enjoy understanding how software
+        works close to the system level and turning that into practical projects.
+      </p>
+      <div class="buttons">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn btn-secondary" href="https://github.com/abhishekwilsoncy23-blip" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-secondary" href="mailto:abhishekwilson.cy23@jecc.ac.in">Email Me</a>
+      </div>
+    </div>
+
+    <aside class="hero-card reveal">
+      <h3>Current Focus</h3>
+      <div class="focus-list">
+        <div class="focus-item">
+          <span class="dot"></span>
+          <div>
+            <strong>Systems & Low-level Programming</strong><br />
+            <span style="color:var(--muted)">C/C++, memory, OS and architecture fundamentals</span>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="dot"></span>
+          <div>
+            <strong>Linux & Tooling</strong><br />
+            <span style="color:var(--muted)">Command line, GCC, GDB, CMake, Make, Git</span>
+          </div>
+        </div>
+        <div class="focus-item">
+          <span class="dot"></span>
+          <div>
+            <strong>Backend & Networking</strong><br />
+            <span style="color:var(--muted)">Python, Flask, REST APIs, WebSockets, TCP/IP basics</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<main>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>About</h2>
+        <p>
+          I am a B.Tech Computer Science and Engineering student at Jyothi Engineering College
+          (APJ Abdul Kalam Technological University), expected to graduate in 2027. I am also
+          pursuing a Minor Degree in Automation / Mechatronics.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card reveal">
+          <p>
+            My main interests are systems software, low-level programming, Linux, computer networks,
+            and software development. I like working with C/C++, Python, and Linux environments, and
+            I am steadily learning more about operating systems, computer architecture, and how
+            programs interact with hardware.
+          </p>
+        </div>
+        <div class="card reveal">
+          <p>
+            I have hands-on academic experience with REST APIs, event processing, network simulation,
+            real-time web applications, and data storage/search. I am looking for opportunities where
+            I can apply my technical and analytical skills while continuing to grow in
+            systems-oriented software development.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Technical Skills</h2>
+        <p>
+          Grouped by the areas I want to grow into: systems, low-level programming, Linux, and
+          practical software development.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card skill-group reveal">
+          <h3>Languages</h3>
+          <ul>
+            <li>C</li>
+            <li>C++</li>
+            <li>Python</li>
+            <li>Java</li>
+            <li>JavaScript</li>
+            <li>Dart</li>
+          </ul>
+        </div>
+
+        <div class="card skill-group reveal">
+          <h3>Systems & Low-Level</h3>
+          <ul>
+            <li>Linux / Ubuntu</li>
+            <li>Command-line operations</li>
+            <li>GCC</li>
+            <li>GDB</li>
+            <li>CMake</li>
+            <li>Make</li>
+            <li>OS fundamentals</li>
+            <li>Computer architecture fundamentals</li>
+            <li>Socket programming basics</li>
+          </ul>
+        </div>
+
+        <div class="card skill-group reveal">
+          <h3>Backend & Web</h3>
+          <ul>
+            <li>Python Flask</li>
+            <li>REST APIs</li>
+            <li>WebSockets</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>Tailwind CSS</li>
+            <li>JavaScript</li>
+            <li>SQLite</li>
+            <li>Elasticsearch</li>
+          </ul>
+        </div>
+
+        <div class="card skill-group reveal">
+          <h3>Networking</h3>
+          <ul>
+            <li>TCP/IP fundamentals</li>
+            <li>Cisco Packet Tracer</li>
+            <li>Network traffic analysis</li>
+            <li>Network simulation</li>
+          </ul>
+        </div>
+
+        <div class="card skill-group reveal">
+          <h3>Tools</h3>
+          <ul>
+            <li>Git</li>
+            <li>VS Code</li>
+            <li>Android Studio</li>
+            <li>Cloudflare Pages</li>
+            <li>Netlify</li>
+          </ul>
+        </div>
+
+        <div class="card skill-group reveal">
+          <h3>Core CS</h3>
+          <ul>
+            <li>Data structures</li>
+            <li>Algorithms</li>
+            <li>Object-oriented programming</li>
+            <li>Operating-system fundamentals</li>
+            <li>Computer architecture fundamentals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Projects</h2>
+        <p>
+          Academic and personal projects that show backend, systems, networking, and real-time
+          software work.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card project reveal">
+          <div class="project-top">
+            <div>
+              <h3>SiemLite — Distributed Event Processing Platform</h3>
+              <div class="tag">Major Project / Ongoing</div>
+            </div>
+          </div>
+          <p>
+            A platform for collecting, processing, storing, searching, and visualising system and
+            event data.
+          </p>
+          <ul>
+            <li>Built backend REST API functionality using Python and Flask for receiving and processing event data.</li>
+            <li>Developed a real-time web dashboard using JavaScript and WebSockets.</li>
+            <li>Integrated Elasticsearch for event storage and search.</li>
+            <li>Implemented a rule-based mechanism for processing events and generating alerts.</li>
+          </ul>
+          <div class="tech">
+            <span>Python</span>
+            <span>Flask</span>
+            <span>JavaScript</span>
+            <span>WebSockets</span>
+            <span>Elasticsearch</span>
+          </div>
+        </article>
+
+        <article class="card project reveal">
+          <div class="project-top">
+            <div>
+              <h3>Mirage — Network Simulation Framework</h3>
+              <div class="tag">Mini Project</div>
+            </div>
+          </div>
+          <p>
+            A Python and JavaScript framework for simulating configurable network traffic patterns
+            and visualising network activity.
+          </p>
+          <ul>
+            <li>Developed a Python-based framework for simulating configurable network traffic patterns.</li>
+            <li>Implemented custom traffic generation and basic network-flow simulation.</li>
+            <li>Created a JavaScript-based interface for visualising simulated network activity.</li>
+            <li>Designed a JSON-based configuration system for defining different traffic scenarios.</li>
+          </ul>
+          <div class="tech">
+            <span>Python</span>
+            <span>JavaScript</span>
+            <span>JSON</span>
+            <span>Network Simulation</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="research">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Research & Technical Study</h2>
+        <p>
+          Areas I have studied beyond coursework, with a focus on runtime systems and
+          resource-constrained monitoring.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <article class="card reveal">
+          <h3>Virtual Machine Introspection for Runtime Analysis</h3>
+          <p>
+            Studied Virtual Machine Introspection (VMI) techniques for inspecting guest
+            operating-system state from the hypervisor layer. Explored applications in runtime
+            analysis, debugging, performance monitoring, and system visibility. Studied tools and
+            libraries such as LibVMI.
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <h3>Lightweight Monitoring for Resource-Constrained Systems</h3>
+          <p>
+            Reviewed lightweight approaches for monitoring in environments with limited resources.
+            Studied log/event collection, rule-based processing, dashboards, and event enrichment
+            using tools such as ELK Stack and Graylog.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Certifications & Courses</h2>
+        <p>Selected online courses and certifications.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card reveal">
+          <ul class="list">
+            <li>Introduction to Industry 4.0 and Industrial Internet of Things — NPTEL, 2025</li>
+            <li>Industrial Automation and Control — NPTEL, 2026</li>
+            <li>Android App Development (Java) — ICT Academy of Kerala, 2024</li>
+          </ul>
+        </div>
+        <div class="card reveal">
+          <ul class="list">
+            <li>Generative AI for Developers — Infosys Springboard, 2026</li>
+            <li>Essentials of Cloud Computing — Infosys Springboard, 2026</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Achievements</h2>
+      </div>
+      <div class="card reveal">
+        <ul class="list">
+          <li>Top 5% recognition in NPTEL for “Introduction to Industry 4.0 and Industrial Internet of Things”.</li>
+          <li>Maintained good academic performance in programming, computer science, and systems-related subjects.</li>
+          <li>Pursuing a Minor Degree in Automation / Mechatronics alongside the B.Tech program.</li>
+          <li>Professional membership: Institution of Engineers India (IEI).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Contact</h2>
+        <p>
+          Open to internships, projects, and opportunities in systems software, low-level
+          programming, Linux, networking, and backend development.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <a class="contact-item reveal" href="mailto:abhishekwilson.cy23@jecc.ac.in">
+          <div class="icon">@</div>
+          <div>
+            <span>Email</span>
+            <strong>abhishekwilson.cy23@jecc.ac.in</strong>
+          </div>
+        </a>
+
+        <a class="contact-item reveal" href="tel:+917356589311">
+          <div class="icon">☎</div>
+          <div>
+            <span>Phone</span>
+            <strong>+91-7356589311</strong>
+          </div>
+        </a>
+
+        <div class="contact-item reveal">
+          <div class="icon">⌖</div>
+          <div>
+            <span>Location</span>
+            <strong>Thrissur, Kerala, India</strong>
+          </div>
+        </div>
+
+        <a class="contact-item reveal" href="https://github.com/abhishekwilsoncy23-blip" target="_blank" rel="noopener">
+          <div class="icon">⌘</div>
+          <div>
+            <span>GitHub</span>
+            <strong>github.com/abhishekwilsoncy23-blip</strong>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    © <span id="year"></span> Abhishek Wilson. Built with HTML, CSS, and JavaScript.
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById("menuBtn");
+  const navLinks = document.getElementById("navLinks");
+
+  menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+  });
+
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => navLinks.classList.remove("open"));
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+</script>
+
+</body>
+</html>
